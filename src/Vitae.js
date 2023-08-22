@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PDFViewer } from '@react-pdf/renderer';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
@@ -23,7 +23,7 @@ function Vitae(data) {
     const styles = StyleSheet.create({
         page: {
             flexDirection: 'row',
-            backgroundColor: '#E4E4E4'
+            backgroundColor: '#FFFFFF'
         },
         section: {
             margin: 10,
