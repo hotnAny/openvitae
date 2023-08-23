@@ -28,7 +28,12 @@ function App() {
 
     const localStorageData = localStorage.getItem('entries');
     if (localStorageData) {
-      setEntries(yaml.load(localStorageData));
+      try {
+        setEntries(yaml.load(localStorageData));
+      } catch (error) {
+        alert(error);
+      }
+      
     }
 
     console.log(entries);
@@ -63,6 +68,9 @@ function App() {
     }, 1000);
   };
 
+  //
+  // the form to add new vitae items
+  //
   const Form = () => {
     const categories = {
       'Basic Information': [],
@@ -115,7 +123,6 @@ function App() {
     };
 
     const handleSubmit = (e) => {
-      // localStorage.clear();
 
       e.preventDefault();
       const entry = { startYear, endYear, label, description, link };
@@ -131,7 +138,7 @@ function App() {
       }
       entries[category][subCategory].push(entry)
 
-      const rawDataNew = yaml.dump(entries);
+      const rawDataNew = yaml.dump(entries, { noRefs: true, quoteKeys: true });
       syncData(rawDataNew);
       handleSyncPDF();
 
@@ -162,13 +169,20 @@ function App() {
             ))}
           </select>
 
+          <br />
+
           <input type="number" value={startYear} onChange={handleStartYearChange} placeholder='Start Year' />
           <input type="number" value={endYear} onChange={handleEndYearChange} placeholder='End Year' />
+          <input type="text" value={label} onChange={handleLabelChange} placeholder='Label' />
 
           <br />
 
-          <input type="text" value={label} onChange={handleLabelChange} placeholder='Label' />
-          <input type="text" value={description} onChange={handleDescriptionChange} placeholder='Description' />
+          {/* <input type="text" value={description} onChange={handleDescriptionChange} placeholder='Description' /> */}
+          <textarea
+            rows={3}
+            cols={40}
+            placeholder="Description" onChange={handleDescriptionChange}
+          />
 
           <br />
 
@@ -185,6 +199,8 @@ function App() {
   //
   //
   useEffect(() => {
+    // localStorage.clear();
+
     syncData()
     handleSyncPDF()
 
@@ -202,14 +218,14 @@ function App() {
 
   return (
     <div>
-      <table>
+      <table width="100%" border="1">
         <tr>
           <td colSpan="2">
             <h1>OpenVitae</h1>
           </td>
         </tr>
         <tr>
-          <td>
+          <td width="50%">
             {/* form and editor column */}
             <Form />
 
@@ -218,11 +234,11 @@ function App() {
               ref={editorRef}
               theme="github"
               mode="yaml"
-              value={yaml.dump(entries)}
+              value={yaml.dump(entries, { noRefs: true, quoteKeys: true })}
             />
           </td>
           {/* PDF column */}
-          <td >
+          <td width="50%">
             <button onClick={handleSyncPDF}>Sync PDF</button>
 
             <br />
