@@ -190,7 +190,6 @@ function App() {
 
           <br />
 
-          {/* <input type="text" value={description} onChange={handleDescriptionChange} placeholder='Description' /> */}
           <textarea
             rows={5}
             cols={60}
