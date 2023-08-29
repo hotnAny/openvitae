@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { PDFViewer } from '@react-pdf/renderer';
-import { Document, Page, Text, View, StyleSheet, Link } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Link, Font, Svg } from '@react-pdf/renderer';
+import LinkSvg from "./link.svg";
+
+Font.register({
+    family: 'FontAwesome',
+    fonts: [{ src: './Font Awesome 6 Free-Regular-400.otf' }],
+});
 
 const styles = StyleSheet.create({
     container: {
@@ -48,6 +54,16 @@ const styles = StyleSheet.create({
     }
 });
 
+const IconLink = () => {
+    return (
+        <View>
+            <Svg viewBox="0 0 64 64" width={24} height={24}>
+                <LinkSvg /> {/* Render your imported SVG component */}
+            </Svg>
+        </View>
+    )
+}
+
 function Vitae(data) {
     const entryBlank = { startYear: '', endYear: '', label: '', description: '', link: '' };
     const [basicInfo, setBasicInfo] = useState(entryBlank);
@@ -73,8 +89,6 @@ function Vitae(data) {
     }
 
     useEffect(() => {
-        // const entries = data.entries;
-
         if (data.entries) {
             if (data.entries['Basic Information']) {
                 const objs = data.entries['Basic Information']['']
@@ -83,13 +97,6 @@ function Vitae(data) {
                 }
             }
 
-            // if (data.entries['Current Position']) {
-            //     const objs = data.entries['Current Position']
-            //     Object.keys(objs).map((key, index) => (
-            //         objs[key].sort((a, b) => parseInt(a.startYear) - parseInt(b.startYear))
-            //     ))
-            //     setCurrentPositions(objs)
-            // }
             initEntry(data.entries, 'Current Position', setCurrentPositions)
             initEntry(data.entries, 'Education', setEducations)
             initEntry(data.entries, 'Awards', setAwards)
@@ -97,51 +104,12 @@ function Vitae(data) {
             initEntry(data.entries, 'Publications', setPublications)
             initEntry(data.entries, 'Patents', setPatents)
             initEntry(data.entries, 'Funding', setFunding)
-
-            // }
-            // if (entries['Education']) {
-            //     const objs = entries['Education']['']
-            //     if (objs && objs.length > 0) {
-            //         setEducations(objs)
-            //     }
-            // }
-            // if (entries['Awards']) {
-            //     const objs = entries['Awards']['']
-            //     if (objs && objs.length > 0) {
-            //         setAwards(objs)
-            //     }
-            // }
-            // if (entries['Professional Experiences']) {
-            //     const objs = entries['Professional Experiences']['']
-            //     if (objs && objs.length > 0) {
-            //         setProfessionals(objs)
-            //     }
-            // }
-            // if (entries['Publications']) {
-            //     const objs = entries['Publications']['Conferences & Journals']
-            //     if (objs && objs.length > 0) {
-            //         setConfJrnlPubs(objs)
-            //     }
-            // }
-            // if (entries['Patents']) {
-            //     const objs = entries['Patents']['']
-            //     if (objs && objs.length > 0) {
-            //         setPatents(objs)
-            //     }
-            // }
-            // if (entries['Funding']) {
-            //     const objs = entries['Funding']['']
-            //     if (objs && objs.length > 0) {
-            //         setFunding(objs)
-            //     }
-            // }
         }
 
     }, []);
 
     const VitaeSection = (objs) => {
         const secEntries = objs.entries
-        // secEntries.sort((a, b) => parseInt(a.startYear) - parseInt(b.startYear))
         const secName = objs.name
         return secEntries == undefined ? <View></View> :
             <View style={styles.section}>
@@ -158,7 +126,7 @@ function Vitae(data) {
                                 <Text style={styles.textDescription}>
                                     {entry.description}
                                     {" "}
-                                    {entry.link === '' ? "" : <Link src={entry.link}>{entry.link}</Link>}
+                                    {entry.link === '' ? "" : <Link src={entry.link}>[link]</Link>}
                                 </Text>
                             </View>
                         ))}
