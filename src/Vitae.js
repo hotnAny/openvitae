@@ -46,11 +46,14 @@ const styles = StyleSheet.create({
         marginRight: 0
     },
     textLabel: {
-        width: '10%',
-        marginRight: 20
+        width: '15%',
+        marginRight: 5
     },
     textDescription: {
-        width: '65%',
+        width: '70%',
+    },
+    textNone : {
+        width: '0%'
     }
 });
 
@@ -68,15 +71,14 @@ function Vitae(data) {
     const entryBlank = { startYear: '', endYear: '', label: '', description: '', link: '' };
     const [basicInfo, setBasicInfo] = useState(entryBlank);
     const [currentPositions, setCurrentPositions] = useState();
-    const [educations, setEducations] = useState([]);
-    const [awards, setAwards] = useState([]);
-    const [professionals, setProfessionals] = useState([]);
-    const [publications, setPublications] = useState([]);
-    const [confjrnlPubs, setConfJrnlPubs] = useState([]);
-    const [patents, setPatents] = useState([]);
-    const [funding, setFunding] = useState([]);
-
-    const [entries, setEntries] = useState();
+    const [educations, setEducations] = useState();
+    const [awards, setAwards] = useState();
+    const [professionals, setProfessionals] = useState();
+    const [publications, setPublications] = useState();
+    const [patents, setPatents] = useState();
+    const [funding, setFunding] = useState();
+    const [press, setPress] = useState();
+    const [talks, setTalks] = useState();
 
     const initEntry = (entries, name, setMethod) => {
         if (entries[name]) {
@@ -104,6 +106,8 @@ function Vitae(data) {
             initEntry(data.entries, 'Publications', setPublications)
             initEntry(data.entries, 'Patents', setPatents)
             initEntry(data.entries, 'Funding', setFunding)
+            initEntry(data.entries, 'Press', setPress)
+            initEntry(data.entries, 'Talks', setTalks)
         }
 
     }, []);
@@ -122,7 +126,7 @@ function Vitae(data) {
                                 <Text style={styles.textDates}>
                                     {entry.startYear + (entry.endYear === '' ? '' : ('-' + entry.endYear))}
                                 </Text>
-                                <Text style={styles.textLabel}>{entry.label}</Text>
+                                <Text style={entry.label === '' ? styles.textNon : styles.textLabel}>{entry.label}</Text>
                                 <Text style={styles.textDescription}>
                                     {entry.description}
                                     {" "}
@@ -159,6 +163,10 @@ function Vitae(data) {
                 <VitaeSection entries={patents} name="Patents" />
 
                 <VitaeSection entries={funding} name="Funding" />
+
+                <VitaeSection entries={press} name="Press"/>
+
+                <VitaeSection entries={talks} name="Talks"/>
 
             </Page>
         </Document>

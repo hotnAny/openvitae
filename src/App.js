@@ -18,9 +18,6 @@ function App() {
   // synchronize data across local storage, the editor view, and the PDF view
   //
   const syncData = (rawDataNew) => {
-    // // signal to the PDF viewer that data is not ready 
-    // setDataReady(false);
-
     // in case new data needs to be updated to local storage
     if (rawDataNew) {
       localStorage.setItem('entries', rawDataNew);
@@ -37,9 +34,6 @@ function App() {
     }
 
     console.log(entries);
-
-    // // signal to the PDF viewer that data is now ready 
-    // setDataReady(true);
   }
 
   const handleSyncPDF = () => {
@@ -81,7 +75,8 @@ function App() {
       'Publications': ['Conferences & Journals', 'Dissertations & These', 'Book Chapters', 'Magazine Articles'],
       'Patents': [],
       'Funding': [],
-      'Press': []
+      'Press': ['Research Conducted or Led by Me', 'Research Collaborated with Others'],
+      'Talks': []
     }
 
     const [category, setCategory] = useState('');
