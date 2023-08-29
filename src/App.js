@@ -33,7 +33,7 @@ function App() {
       } catch (error) {
         alert(error);
       }
-      
+
     }
 
     console.log(entries);
@@ -147,6 +147,19 @@ function App() {
 
     };
 
+    const handleDownload = (e) => {
+      const yamlString = yaml.dump(entries);
+      const blob = new Blob([yamlString], { type: 'application/x-yaml' });
+      const blobURL = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobURL;
+      a.download = 'vitae.yml'; // Set the desired filename
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
     return (
       <div>
         <form onSubmit={handleSubmit}>
@@ -179,7 +192,7 @@ function App() {
 
           {/* <input type="text" value={description} onChange={handleDescriptionChange} placeholder='Description' /> */}
           <textarea
-            rows={3}
+            rows={5}
             cols={40}
             placeholder="Description" onChange={handleDescriptionChange}
           />
@@ -190,6 +203,8 @@ function App() {
 
           <button type="submit">Submit</button>
         </form>
+
+        <button onClick={handleDownload}>Download Vitae Data</button>
 
       </div>
     );
@@ -218,7 +233,7 @@ function App() {
 
   return (
     <div>
-      <table width="100%" border="1">
+      <table width="100%" border="0">
         <tr>
           <td colSpan="2">
             <h1>OpenVitae</h1>
@@ -239,7 +254,7 @@ function App() {
           </td>
           {/* PDF column */}
           <td width="50%">
-            <button onClick={handleSyncPDF}>Sync PDF</button>
+            {/* <button onClick={handleSyncPDF}>Sync PDF</button> */}
 
             <br />
 
