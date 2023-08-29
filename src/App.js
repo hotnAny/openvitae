@@ -78,7 +78,10 @@ function App() {
       'Education': [],
       'Awards': [],
       'Professional Experiences': [],
-      'Publications': ['Conferences & Journals', 'Dissertations & These', 'Book Chapters', 'Magazine Articles']
+      'Publications': ['Conferences & Journals', 'Dissertations & These', 'Book Chapters', 'Magazine Articles'],
+      'Patents': [],
+      'Funding': [],
+      'Press': []
     }
 
     const [category, setCategory] = useState('');
@@ -165,12 +168,9 @@ function App() {
         <form onSubmit={handleSubmit}>
           <select value={category} onChange={handleCategoryChange}>
             <option value="">-- Category --</option>
-            <option value="Basic Information">Basic Information</option>
-            <option value="Current Position">Current Position</option>
-            <option value="Education">Education</option>
-            <option value="Professional Experiences">Professional Experiences</option>
-            <option value="Awards">Awards</option>
-            <option value="Publications">Publications</option>
+            {Object.keys(categories).map((option, index) => (
+              <option key={index} value={option}>{option}</option>
+            ))}
           </select>
 
           <select value={subCategory} onChange={handleSubCategoryChange}>
@@ -193,7 +193,7 @@ function App() {
           {/* <input type="text" value={description} onChange={handleDescriptionChange} placeholder='Description' /> */}
           <textarea
             rows={5}
-            cols={40}
+            cols={60}
             placeholder="Description" onChange={handleDescriptionChange}
           />
 

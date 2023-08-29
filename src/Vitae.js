@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PDFViewer } from '@react-pdf/renderer';
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Link } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
     container: {
@@ -11,6 +11,11 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
         fontSize: "12",
+        // margin: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
+        paddingTop: 40,
+        paddingBottom: 40,
     },
     section: {
         margin: 10,
@@ -35,7 +40,7 @@ const styles = StyleSheet.create({
         marginRight: 20
     },
     textDescription: {
-        width: '75%'
+        width: '65%',
     }
 });
 
@@ -45,6 +50,10 @@ function Vitae(data) {
     const [currentPositions, setCurrentPositions] = useState([]);
     const [educations, setEducations] = useState([]);
     const [awards, setAwards] = useState([]);
+    const [professionals, setProfessionals] = useState([]);
+    const [confjrnlPubs, setConfJrnlPubs] = useState([]);
+    const [patents, setPatents] = useState([]);
+    const [funding, setFunding] = useState([]);
 
     useEffect(() => {
         const entries = data.entries;
@@ -74,6 +83,30 @@ function Vitae(data) {
                     setAwards(objs)
                 }
             }
+            if (entries['Professional Experiences']) {
+                const objs = entries['Professional Experiences']['']
+                if (objs && objs.length > 0) {
+                    setProfessionals(objs)
+                }
+            }
+            if (entries['Publications']) {
+                const objs = entries['Publications']['Conferences & Journals']
+                if (objs && objs.length > 0) {
+                    setConfJrnlPubs(objs)
+                }
+            }
+            if (entries['Patents']) {
+                const objs = entries['Patents']['']
+                if (objs && objs.length > 0) {
+                    setPatents(objs)
+                }
+            }
+            if (entries['Funding']) {
+                const objs = entries['Funding']['']
+                if (objs && objs.length > 0) {
+                    setFunding(objs)
+                }
+            }
         }
 
     }, []);
@@ -91,7 +124,11 @@ function Vitae(data) {
                             {entry.startYear + (entry.endYear === '' ? '' : ('-' + entry.endYear))} 
                         </Text>
                         <Text style={styles.textLabel}>{entry.label}</Text>
-                        <Text style={styles.textDescription}>{entry.description}</Text>
+                        <Text style={styles.textDescription}>
+                            {entry.description}
+                            {" "}
+                            {entry.link === '' ? "" : <Link src={entry.link}>{entry.link}</Link>}
+                        </Text>
                     </View>
                 ))}
             </View>
@@ -113,6 +150,14 @@ function Vitae(data) {
                 <VitaeSection entries={educations} name="Education" />
 
                 <VitaeSection entries={awards} name="Awards" />
+
+                <VitaeSection entries={professionals} name="Professional Experiences" />
+
+                <VitaeSection entries={confjrnlPubs} name="Publications / Conferences & Journals" />
+
+                <VitaeSection entries={patents} name="Patents" />
+
+                <VitaeSection entries={funding} name="Funding" />
 
             </Page>
         </Document>
