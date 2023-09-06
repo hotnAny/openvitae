@@ -7,7 +7,6 @@ import Vitae from './Vitae';
 
 function App() {
 
-
   const [entries, setEntries] = useState({});
   const [isDataReady, setDataReady] = useState(false);
 
@@ -37,8 +36,6 @@ function App() {
   }
 
   const handleSyncPDF = () => {
-    // console.log("sync pdf")
-
     // signal to the PDF viewer that data is not ready 
     setDataReady(false);
 
@@ -76,7 +73,8 @@ function App() {
       'Patents': [],
       'Funding': [],
       'Press': ['Research Conducted or Led by Me', 'Research Collaborated with Others'],
-      'Talks': []
+      'Talks': [],
+      'Teaching & Mentoring': ['Course Instructor and Teaching Assistant', 'Ph.D. Students Mentored', 'Master Students Mentored', 'Undergraduate Students Mentored', 'Intern & Visiting Students Mentored']
     }
 
     const [category, setCategory] = useState('');
