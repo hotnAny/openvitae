@@ -75,10 +75,13 @@ function Vitae(data) {
     const [service, setService] = useState();
 
     const initEntry = (entries, name, setMethod) => {
+        const fixEndYear = (endYear) => {
+            return endYear === '' ?  new Date().getFullYear() : parseInt(endYear)
+        }
         if (entries[name]) {
             const objs = data.entries[name]
             Object.keys(objs).map((key, index) => (
-                objs[key].sort((a, b) => (parseInt(b.startYear) - parseInt(a.startYear)) + parseInt(b.endYear) - parseInt(a.endYear))
+                objs[key].sort((a, b) => (parseInt(b.startYear) - parseInt(a.startYear)) + (fixEndYear(b.endYear) - fixEndYear(a.endYear)))
             ))
             setMethod(objs)
         }

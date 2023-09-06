@@ -74,7 +74,8 @@ function App() {
       'Funding': [],
       'Press': ['Research Conducted or Led by Me', 'Research Collaborated with Others'],
       'Talks': [],
-      'Teaching & Mentoring': ['Course Instructor and Teaching Assistant', 'Ph.D. Students Mentored', 'Master Students Mentored', 'Undergraduate Students Mentored', 'Intern & Visiting Students Mentored']
+      'Teaching & Mentoring': ['Course Instructor and Teaching Assistant', 'Ph.D. Students Mentored', 'Master Students Mentored', 'Undergraduate Students Mentored', 'Intern & Visiting Students Mentored'],
+      'Service': ['Ph.D. Thesis Committee', 'Master Thesis Committee', 'Pre-college Education & Outreach', 'Review Panel', 'Editorial Board', 'Program Committee', 'External Reviewer', 'Special Recognition as a Reviewer']
     }
 
     const [category, setCategory] = useState('');
