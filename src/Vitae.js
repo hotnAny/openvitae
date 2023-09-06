@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { PDFViewer } from '@react-pdf/renderer';
-import { Document, Page, Text, View, StyleSheet, Link, Font, Svg } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Link} from '@react-pdf/renderer';
 
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 import FontAwesomeIcon from './FontAwesomeIcon'
-
-// import LinkSvg from "./link.svg";
-
-// Font.register({
-//     family: 'FontAwesome',
-//     fonts: [{ src: './Font Awesome 6 Free-Regular-400.otf' }],
-// });
-
 
 const styles = StyleSheet.create({
     container: {
@@ -22,7 +14,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
         fontSize: "12",
-        // margin: 20,
         paddingLeft: 20,
         paddingRight: 20,
         paddingTop: 40,
@@ -68,16 +59,6 @@ const styles = StyleSheet.create({
     }
 });
 
-// const IconLink = () => {
-//     return (
-//         <View>
-//             <Svg viewBox="0 0 64 64" width={24} height={24}>
-//                 <LinkSvg /> {/* Render your imported SVG component */}
-//             </Svg>
-//         </View>
-//     )
-// }
-
 function Vitae(data) {
     const entryBlank = { startYear: '', endYear: '', label: '', description: '', link: '' };
     const [basicInfo, setBasicInfo] = useState(entryBlank);
@@ -91,6 +72,7 @@ function Vitae(data) {
     const [press, setPress] = useState();
     const [talks, setTalks] = useState();
     const [teachingMentoring, setTeachingMentoring] = useState();
+    const [service, setService] = useState();
 
     const initEntry = (entries, name, setMethod) => {
         if (entries[name]) {
@@ -121,6 +103,7 @@ function Vitae(data) {
             initEntry(data.entries, 'Press', setPress)
             initEntry(data.entries, 'Talks', setTalks)
             initEntry(data.entries, 'Teaching & Mentoring', setTeachingMentoring)
+            initEntry(data.entries, 'Service', setService)
         }
 
     }, []);
@@ -144,7 +127,7 @@ function Vitae(data) {
                                     {entry.description}
                                 </Text>
                                 <View style={styles.textLink}>
-                                    {entry.link === '' ? "" : <Link src={entry.link}><FontAwesomeIcon faIcon={faArrowUpRightFromSquare} style={{ color: '#2D68C4', width: '12px' }} /></Link>}
+                                    {entry.link === '' ? <Text>{""}</Text> : <Link src={entry.link}><FontAwesomeIcon faIcon={faArrowUpRightFromSquare} style={{ color: '#2D68C4', width: '12px' }} /></Link>}
                                 </View>
                             </View>
                         ))}
@@ -183,6 +166,8 @@ function Vitae(data) {
                 <VitaeSection entries={talks} name="Talks" />
 
                 <VitaeSection entries={teachingMentoring} name="Teaching & Mentoring" />
+
+                <VitaeSection entries={service} name="Service" />
 
             </Page>
         </Document>
