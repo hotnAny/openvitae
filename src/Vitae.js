@@ -1,9 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { PDFViewer } from '@react-pdf/renderer';
-import { Document, Page, Text, View, StyleSheet, Link} from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Link, Font } from '@react-pdf/renderer';
 
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 import FontAwesomeIcon from './FontAwesomeIcon'
+
+import EBGaramondRegular from './EBGaramond-Regular.ttf'
+import EBGaramondItalic from './EBGaramond-Italic.ttf'
+import EBGaramondBold from './EBGaramond-Bold.ttf'
+
+Font.register({
+    family: 'EBGaramond',
+    fonts: [
+        { src: EBGaramondRegular, fontWeight: "normal" },
+        { src: EBGaramondBold, fontWeight: "bold" },
+    ],
+});
+
+Font.register({
+    family: 'EBGaramondItalic',
+    fonts: [
+        { src: EBGaramondItalic },
+    ]
+});
 
 const styles = StyleSheet.create({
     container: {
@@ -13,7 +32,8 @@ const styles = StyleSheet.create({
     page: {
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
-        fontSize: "12",
+        fontFamily: 'EBGaramond',
+        fontSize: "11",
         paddingLeft: 20,
         paddingRight: 20,
         paddingTop: 40,
@@ -24,11 +44,12 @@ const styles = StyleSheet.create({
         padding: 10
     },
     heading: {
-        fontFamily: 'Helvetica-Bold',
+        fontWeight: "bold",
         marginBottom: 5
     },
     subHeading: {
-        fontFamily: 'Helvetica-Oblique',
+        fontFamily: 'EBGaramondItalic',
+        // fontStyle: "italic",
         marginBottom: 5
     },
     rowItem: {
@@ -42,17 +63,20 @@ const styles = StyleSheet.create({
         marginRight: 0
     },
     textLabel: {
-        width: '15%',
-        marginRight: 5
+        width: '10%',
+        marginRight: 20,
     },
     textDescription: {
-        // flexDirection: "row",
         maxWidth: '65%',
+        marginRight: 5,
+    },
+    textDescriptionWide: {
+        maxWidth: '80%',
         marginRight: 5,
     },
     textLink: {
         width: '5%',
-        marginLeft: 5,
+        marginLeft: 10,
     },
     textNone: {
         width: '0%'
@@ -76,7 +100,7 @@ function Vitae(data) {
 
     const initEntry = (entries, name, setMethod) => {
         const fixEndYear = (endYear) => {
-            return endYear === '' ?  new Date().getFullYear() : parseInt(endYear)
+            return endYear === '' ? new Date().getFullYear() : parseInt(endYear)
         }
         if (entries[name]) {
             const objs = data.entries[name]
@@ -114,7 +138,7 @@ function Vitae(data) {
     const VitaeSection = (objs) => {
         const secEntries = objs.entries
         const secName = objs.name
-        return secEntries == undefined ? <View></View> :
+        return secEntries === undefined ? <View></View> :
             <View style={styles.section}>
                 {secName === '' ? "" : <Text style={styles.heading}>{secName}</Text>}
                 {Object.keys(secEntries).map((subsecName, idx) => (
@@ -126,11 +150,11 @@ function Vitae(data) {
                                     {entry.startYear + (entry.endYear === '' ? '' : ('-' + entry.endYear))}
                                 </Text>
                                 <Text style={entry.label === '' ? styles.textNon : styles.textLabel}>{entry.label}</Text>
-                                <Text style={styles.textDescription}>
+                                <Text style={entry.label === '' ? styles.textDescriptionWide : styles.textDescription}>
                                     {entry.description}
                                 </Text>
                                 <View style={styles.textLink}>
-                                    {entry.link === '' ? <Text>{""}</Text> : <Link src={entry.link}><FontAwesomeIcon faIcon={faArrowUpRightFromSquare} style={{ color: '#2D68C4', width: '12px' }} /></Link>}
+                                    {entry.link === '' ? <Text>{""}</Text> : <Link src={entry.link}><FontAwesomeIcon faIcon={faArrowUpRightFromSquare} style={{ color: '#2D68C4', width: '8px' }} /></Link>}
                                 </View>
                             </View>
                         ))}
