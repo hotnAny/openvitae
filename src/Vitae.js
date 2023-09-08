@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PDFViewer } from '@react-pdf/renderer';
 import { Document, Page, Text, View, StyleSheet, Link, Font } from '@react-pdf/renderer';
 
-import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
+import { faArrowUpRightFromSquare, faTrophy, faCertificate } from '@fortawesome/free-solid-svg-icons'
 import FontAwesomeIcon from './FontAwesomeIcon'
 
 import EBGaramondRegular from './EBGaramond-Regular.ttf'
@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     textDates: {
-        width: '15%',
-        marginRight: 0
+        width: '10%',
+        marginRight: 10
     },
     textLabel: {
         width: '10%',
@@ -80,6 +80,10 @@ const styles = StyleSheet.create({
     },
     textNone: {
         width: '0%'
+    },
+    textAward: {
+        color: '#DC143C',
+        fontWeight: 'bold',
     }
 });
 
@@ -150,9 +154,16 @@ function Vitae(data) {
                                     {entry.startYear + (entry.endYear === '' ? '' : ('-' + entry.endYear))}
                                 </Text>
                                 <Text style={entry.label === '' ? styles.textNon : styles.textLabel}>{entry.label}</Text>
-                                <Text style={entry.label === '' ? styles.textDescriptionWide : styles.textDescription}>
-                                    {entry.description}
-                                </Text>
+                                <View style={{ flexDirection: "column" }}>
+                                    <Text style={entry.label === '' ? styles.textDescriptionWide : styles.textDescription}>
+                                        {entry.description}
+                                    </Text>
+                                    { entry.award != undefined && entry.award.includes("Best") ? <View style={{flexDirection: "row"}}>
+                                            <FontAwesomeIcon faIcon={entry.award.includes("Honorable") ? faCertificate : faTrophy} style={{ color: '#DC143C', width: '10px' }}/> 
+                                            <Text>{" "}</Text>
+                                            <Text style={styles.textAward}>{entry.award}</Text>
+                                        </View> : ""}
+                                </View>
                                 <View style={styles.textLink}>
                                     {entry.link === '' ? <Text>{""}</Text> : <Link src={entry.link}><FontAwesomeIcon faIcon={faArrowUpRightFromSquare} style={{ color: '#2D68C4', width: '8px' }} /></Link>}
                                 </View>
