@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20,
         paddingTop: 40,
-        paddingBottom: 40,
+        paddingBottom: 50,
     },
     section: {
         margin: 10,
@@ -64,10 +64,10 @@ const styles = StyleSheet.create({
     },
     textLabel: {
         width: '10%',
-        marginRight: 20,
+        marginRight: 10,
     },
     textDescription: {
-        maxWidth: '65%',
+        maxWidth: '70%',
         marginRight: 5,
     },
     textDescriptionWide: {
@@ -84,7 +84,14 @@ const styles = StyleSheet.create({
     textAward: {
         color: '#DC143C',
         fontWeight: 'bold',
-    }
+    },
+    pageNumbers: {
+        position: 'absolute',
+        bottom: 40,
+        left: 0,
+        right: 0,
+        textAlign: 'center'
+    },
 });
 
 function Vitae(data) {
@@ -109,7 +116,7 @@ function Vitae(data) {
         if (entries[name]) {
             const objs = data.entries[name]
             Object.keys(objs).map((key, index) => (
-                objs[key].sort((a, b) => (parseInt(b.startYear) - parseInt(a.startYear)) + (fixEndYear(b.endYear) - fixEndYear(a.endYear)))
+                objs[key].sort((a, b) => parseInt(b.startYear) != parseInt(a.startYear) ? (parseInt(b.startYear) - parseInt(a.startYear)) : (fixEndYear(b.endYear) - fixEndYear(a.endYear)))
             ))
             setMethod(objs)
         }
@@ -146,26 +153,26 @@ function Vitae(data) {
             <View style={styles.section}>
                 {secName === '' ? "" : <Text style={styles.heading}>{secName}</Text>}
                 {Object.keys(secEntries).map((subsecName, idx) => (
-                    <View>
+                    <View wrap>
                         <Text style={styles.subHeading}>{subsecName}</Text>
                         {secEntries[subsecName].map((entry, idx) => (
                             <View style={styles.rowItem}>
                                 <Text style={styles.textDates}>
-                                    {entry.startYear + (entry.endYear === '' ? '' : ('-' + entry.endYear))}
+                                    {entry.startYear + (entry.endYear === '' ? "" : ('-' + entry.endYear))}
                                 </Text>
                                 <Text style={entry.label === '' ? styles.textNon : styles.textLabel}>{entry.label}</Text>
                                 <View style={{ flexDirection: "column" }}>
                                     <Text style={entry.label === '' ? styles.textDescriptionWide : styles.textDescription}>
                                         {entry.description}
                                     </Text>
-                                    { entry.award != undefined && entry.award.includes("Best") ? <View style={{flexDirection: "row"}}>
-                                            <FontAwesomeIcon faIcon={entry.award.includes("Honorable") ? faCertificate : faTrophy} style={{ color: '#DC143C', width: '10px' }}/> 
-                                            <Text>{" "}</Text>
-                                            <Text style={styles.textAward}>{entry.award}</Text>
-                                        </View> : ""}
+                                    {entry.award != undefined && entry.award.includes("Best") ? <View style={{ flexDirection: "row" }}>
+                                        <FontAwesomeIcon faIcon={entry.award.includes("Honorable") ? faCertificate : faTrophy} style={{ color: '#DC143C', width: '10px' }} />
+                                        <Text>{" "}</Text>
+                                        <Text style={styles.textAward}>{entry.award}</Text>
+                                    </View> : ""}
                                 </View>
                                 <View style={styles.textLink}>
-                                    {entry.link === '' ? <Text>{""}</Text> : <Link src={entry.link}><FontAwesomeIcon faIcon={faArrowUpRightFromSquare} style={{ color: '#2D68C4', width: '8px' }} /></Link>}
+                                    {entry.link === '' ? <Text>{""}</Text> : <Link src={entry.link}><FontAwesomeIcon faIcon={faArrowUpRightFromSquare} style={{ color: '#2D68C4', width: '8px', marginTop: 3 }} /></Link>}
                                 </View>
                             </View>
                         ))}
@@ -176,7 +183,7 @@ function Vitae(data) {
 
     const VitaePage = () => (
         <Document>
-            <Page size="A4" style={styles.page}>
+            <Page wrap size="A4" style={styles.page}>
                 {/* basic info */}
                 {basicInfo === undefined ? <View></View> :
                     <View style={styles.section}>
@@ -206,6 +213,10 @@ function Vitae(data) {
                 <VitaeSection entries={teachingMentoring} name="Teaching & Mentoring" />
 
                 <VitaeSection entries={service} name="Service" />
+
+                <Text style={styles.pageNumbers} render={({ pageNumber, totalPages }) => (
+                    `${pageNumber} / ${totalPages}`
+                )} fixed />
 
             </Page>
         </Document>

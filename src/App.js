@@ -67,15 +67,15 @@ function App() {
       'Basic Information': [],
       'Current Position': [],
       'Education': [],
-      'Awards': [],
+      'Awards': ['Awards Won by Me', 'Awards Won by Students'],
       'Professional Experiences': [],
-      'Publications': ['Conferences & Journals', 'Dissertations & These', 'Book Chapters', 'Magazine Articles'],
+      'Publications': ['Conferences & Journals', 'Dissertations & These', 'Book Chapters', 'Magazine Articles', 'Workshop, Demo, Work-in-Progress, Poster, and Consortium Papers'],
       'Patents': [],
       'Funding': [],
       'Press': ['Research Conducted or Led by Me', 'Research Collaborated with Others'],
       'Talks': [],
       'Teaching & Mentoring': ['Course Instructor and Teaching Assistant', 'Ph.D. Students Mentored', 'Master Students Mentored', 'Undergraduate Students Mentored', 'Intern & Visiting Students Mentored'],
-      'Service': ['Ph.D. Thesis Committee', 'Master Thesis Committee', 'Pre-college Education & Outreach', 'Review Panel', 'Editorial Board', 'Program Committee', 'External Reviewer', 'Special Recognition as a Reviewer']
+      'Service': ['Ph.D. Thesis Committee', 'Master Thesis Committee', 'Pre-college Education & Outreach', 'Review Panel', 'Editorial Board', 'Program Committee', 'Organizing Committee', 'External Reviewer', 'Special Recognition as a Reviewer']
     }
 
     const [category, setCategory] = useState('');
