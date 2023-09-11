@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     subHeading: {
         fontFamily: 'EBGaramondItalic',
-        // fontStyle: "italic",
+        marginTop: 10,
         marginBottom: 5
     },
     rowItem: {
@@ -153,7 +153,7 @@ function Vitae(data) {
             <View style={styles.section}>
                 {secName === '' ? "" : <Text style={styles.heading}>{secName}</Text>}
                 {Object.keys(secEntries).map((subsecName, idx) => (
-                    <View wrap>
+                    <View>
                         <Text style={styles.subHeading}>{subsecName}</Text>
                         {secEntries[subsecName].map((entry, idx) => (
                             <View style={styles.rowItem}>
