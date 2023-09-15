@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20,
         paddingTop: 40,
-        paddingBottom: 50,
+        paddingBottom: 80,
     },
     section: {
         margin: 10,
@@ -45,12 +45,14 @@ const styles = StyleSheet.create({
     },
     heading: {
         fontWeight: "bold",
-        marginBottom: 5
+        // marginBottom: 5,
+        fontSize: "14",
     },
     subHeading: {
         fontFamily: 'EBGaramondItalic',
         marginTop: 10,
-        marginBottom: 5
+        marginBottom: 5,
+        fontSize: "12",
     },
     rowItem: {
         flexDirection: "row",
@@ -188,6 +190,7 @@ function Vitae(data) {
                 {basicInfo === undefined ? <View></View> :
                     <View style={styles.section}>
                         <Text style={styles.heading}>{basicInfo.label}</Text>
+                        <Text>{" "}</Text>
                         <Text>{basicInfo.description}</Text>
                         <Text>{basicInfo.link}</Text>
                     </View>}

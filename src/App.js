@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import yaml from 'js-yaml';
 import AceEditor from 'react-ace'
 import 'ace-builds/src-noconflict/theme-github';
+import 'ace-builds/src-noconflict/ext-searchbox'; // Import the searchbox extension
 import Vitae from './Vitae';
 
 
@@ -57,6 +58,10 @@ function App() {
       // TODO: find a better placeholder
       setStatusText("...");
     }, 1000);
+  };
+
+  const handleFind = () => {
+    editorRef.current.editor.execCommand('find');
   };
 
   //
@@ -220,6 +225,12 @@ function App() {
       name: 'save',
       bindKey: { win: 'Ctrl-S', mac: 'Cmd-S' },
       exec: handleSave,
+    });
+
+    editor.commands.addCommand({
+      name: 'search',
+      bindKey: { win: 'Ctrl-F', mac: 'Cmd-F' },
+      exec: handleFind,
     });
 
   }, []);
