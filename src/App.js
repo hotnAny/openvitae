@@ -4,15 +4,17 @@ import AceEditor from 'react-ace'
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/ext-searchbox'; // Import the searchbox extension
 import Vitae from './Vitae';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'ace-builds/src-noconflict/theme-dawn'; // Replace 'theme-monokai' with your desired theme
 
 function App() {
 
   const [entries, setEntries] = useState({});
   const [isDataReady, setDataReady] = useState(false);
+  const [heightEditor, setHeightEditor] = useState(0);
 
   const editorRef = useRef(null);
-  const [statusText, setStatusText] = useState('...');
+  // const [statusText, setStatusText] = useState('...');
 
   //
   // synchronize data across local storage, the editor view, and the PDF view
@@ -53,16 +55,18 @@ function App() {
     syncData(rawDataNew);
     handleSyncPDF();
 
-    setStatusText("Data saved.");
+    // setStatusText("Data saved.");
     setTimeout(() => {
       // TODO: find a better placeholder
-      setStatusText("...");
+      // setStatusText("...");
     }, 1000);
   };
 
   const handleFind = () => {
     editorRef.current.editor.execCommand('find');
   };
+
+
 
   //
   // the form to add new vitae items
@@ -163,47 +167,73 @@ function App() {
     }
 
     return (
-      <div>
-        <form onSubmit={handleSubmit}>
-          <select value={category} onChange={handleCategoryChange}>
-            <option value="">-- Category --</option>
-            {Object.keys(categories).map((option, index) => (
-              <option key={index} value={option}>{option}</option>
-            ))}
-          </select>
+      <div className="form-group">
 
-          <select value={subCategory} onChange={handleSubCategoryChange}>
-            <option value="">-- Select --</option>
-            {subCategoryOptions.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+        <div className="row mb-3">
+          <div className="col">
+            {/* <form onSubmit={handleSubmit}> */}
+            <select className="form-control" value={category} onChange={handleCategoryChange}>
+              <option value="">-- Category --</option>
+              {Object.keys(categories).map((option, index) => (
+                <option key={index} value={option}>{option}</option>
+              ))}
+            </select>
+          </div>
+          <div className="col">
+            <select className="form-control" value={subCategory} onChange={handleSubCategoryChange}>
+              <option value="">-- Subcategory --</option>
+              {subCategoryOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
 
-          <br />
+        <div className='row mb-3'>
+          <div className='col'>
+            <input className="form-control" type="number" value={startYear} onChange={handleStartYearChange} placeholder='Start Year' />
+          </div>
+          <div className='col'>
+            <input className="form-control" type="number" value={endYear} onChange={handleEndYearChange} placeholder='End Year' />
+          </div>
+          <div className='col'>
+            <input className="form-control" type="text" value={label} onChange={handleLabelChange} placeholder='Label' />
+          </div>
+        </div>
 
-          <input type="number" value={startYear} onChange={handleStartYearChange} placeholder='Start Year' />
-          <input type="number" value={endYear} onChange={handleEndYearChange} placeholder='End Year' />
-          <input type="text" value={label} onChange={handleLabelChange} placeholder='Label' />
+        <div className='row mb-3'>
+          <div className='col'>
+            <textarea className="form-control"
+              rows={5}
+              cols={60}
+              placeholder="Description" onChange={handleDescriptionChange}
+            />
+          </div>
+        </div>
 
-          <br />
 
-          <textarea
-            rows={5}
-            cols={60}
-            placeholder="Description" onChange={handleDescriptionChange}
-          />
+        <div className='row mb-3'>
+          <div className='col'>
+            <input className="form-control" type="text" value={link} onChange={handleLinkChange} placeholder='Link' />
+          </div>
+        </div>
 
-          <br />
+        <div className='row'>
+          <div className='col-sm-auto' >
+            <button className="btn btn-dark" onClick={handleSubmit} type="submit">Submit</button>
+          </div>
 
-          <input type="text" value={link} onChange={handleLinkChange} placeholder='Link' />
+          <div className='col'>
+            <button className="btn btn-dark" onClick={handleDownload}>Download Vitae Data</button>
+          </div>
+        </div>
 
-          <button type="submit">Submit</button>
-        </form>
 
-        <button onClick={handleDownload}>Download Vitae Data</button>
 
+
+        {/* </form> */}
       </div>
     );
   }
@@ -236,37 +266,35 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <table width="100%" border="0">
-        <tr>
-          <td colSpan="2">
-            <h1>OpenVitae</h1>
-          </td>
-        </tr>
-        <tr>
-          <td width="50%">
-            {/* form and editor column */}
-            <Form />
+    // <table style={{ maxHeight: '50vh', overflow: 'auto' }}>
+    <div className=" mx-5 my-3">
+      <div className='container-fluid' style={{ maxHeight: '95vh', overflow: 'hidden' }}>
 
-            <div>{statusText}</div>
-            <AceEditor
-              ref={editorRef}
-              theme="github"
-              mode="yaml"
-              value={yaml.dump(entries, { noRefs: true, quoteKeys: true })}
-            />
-          </td>
-          {/* PDF column */}
-          <td width="50%">
-            {/* <button onClick={handleSyncPDF}>Sync PDF</button> */}
+        <div className='row mb-3'>
+          <h2>OpenVitae</h2>
+        </div>
 
-            <br />
-
-            {isDataReady ? <Vitae entries={entries} /> : <p>Loading ...</p>}
-
-          </td>
-        </tr>
-      </table>
+        <div className='row'>
+          <div className='col-' style={{ width: '640px' }}>
+            <div className='row mb-3' style={{ width: '100%' }}>
+              <Form />
+            </div>
+            <div className='row p-2' style={{ width: '100%', height: '100vh'}}>
+              <AceEditor
+                ref={editorRef}
+                theme="dawn"
+                mode="yaml"
+                height="100%"
+                style={{ flex: '1' }}
+                value={yaml.dump(entries, { noRefs: true, quoteKeys: true })}
+              />
+            </div>
+          </div>
+          <div className='col mx-5'>
+            {isDataReady ? <div style={{ position: 'relative' }}><Vitae entries={entries} /> </div> : <p>Loading ...</p>}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
