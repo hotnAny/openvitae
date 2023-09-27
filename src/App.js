@@ -271,7 +271,7 @@ function App() {
       <div className='container-fluid' style={{ maxHeight: '95vh', overflow: 'hidden' }}>
 
         <div className='row mb-3'>
-          <h2>OpenVitae</h2>
+          <h3>OpenVitae</h3>
         </div>
 
         <div className='row'>
