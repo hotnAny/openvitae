@@ -11,10 +11,10 @@ function App() {
 
   const [entries, setEntries] = useState({});
   const [isDataReady, setDataReady] = useState(false);
-  const [heightEditor, setHeightEditor] = useState(0);
+  // const [heightEditor, setHeightEditor] = useState(0);
 
+  const formRef = useRef(null);
   const editorRef = useRef(null);
-  // const [statusText, setStatusText] = useState('...');
 
   //
   // synchronize data across local storage, the editor view, and the PDF view
@@ -229,11 +229,6 @@ function App() {
             <button className="btn btn-dark" onClick={handleDownload}>Download Vitae Data</button>
           </div>
         </div>
-
-
-
-
-        {/* </form> */}
       </div>
     );
   }
@@ -257,11 +252,18 @@ function App() {
       exec: handleSave,
     });
 
+    // register the 'Cmd-F' command
     editor.commands.addCommand({
       name: 'search',
       bindKey: { win: 'Ctrl-F', mac: 'Cmd-F' },
       exec: handleFind,
     });
+
+    // dynamically adjust ace editor's height
+    const divForm = document.getElementsByName('divForm')[0]
+    const heightEditor = divForm.parentNode.offsetHeight - divForm.offsetHeight
+    console.log(heightEditor)
+    editor.height = heightEditor
 
   }, []);
 
@@ -276,8 +278,8 @@ function App() {
 
         <div className='row'>
           <div className='col-' style={{ width: '640px' }}>
-            <div className='row mb-3' style={{ width: '100%' }}>
-              <Form />
+            <div name='divForm' className='row mb-3' style={{ width: '100%' }}>
+              <Form ref={formRef} />
             </div>
             <div className='row p-2' style={{ width: '100%', height: '100vh'}}>
               <AceEditor
