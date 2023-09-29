@@ -31,7 +31,9 @@ function App() {
       } catch (error) {
         alert(error);
       }
-    } else {
+    }
+    // loading a sample cv to help with the start
+    else {
       fetch('/sample.yml')
         .then(response => {
           if (!response.ok) {
@@ -51,6 +53,7 @@ function App() {
     console.log(entries);
   }
 
+  // "manually" sync with the pdf viewer
   const handleSyncPDF = () => {
     // signal to the PDF viewer that data is not ready 
     setDataReady(false);
@@ -59,21 +62,19 @@ function App() {
     setTimeout(() => {
       setDataReady(true);
     }, 250);
-
   }
 
+  // the 'save' function of the editor
   const handleSave = () => {
     const rawDataNew = editorRef.current.editor.getValue();
-
     syncData(rawDataNew);
     handleSyncPDF();
   };
 
+  // the 'find' function of the editor
   const handleFind = () => {
     editorRef.current.editor.execCommand('find');
   };
-
-
 
   //
   // the form to add new vitae items
@@ -136,12 +137,13 @@ function App() {
     };
 
     const handleSubmit = (e) => {
-
       e.preventDefault();
+
       const entry = { startYear, endYear, label, description, link };
 
       syncData();
 
+      // adding the new entry to the vitae data
       if (!entries[category]) {
         entries[category] = {}
       }
@@ -157,7 +159,6 @@ function App() {
 
       // update the editor
       editorRef.current.editor.setValue(rawDataNew)
-
     };
 
     const handleDownload = (e) => {
@@ -175,10 +176,8 @@ function App() {
 
     return (
       <div className="form-group">
-
         <div className="row mb-3">
           <div className="col">
-            {/* <form onSubmit={handleSubmit}> */}
             <select className="form-control" value={category} onChange={handleCategoryChange}>
               <option value="">-- Category --</option>
               {Object.keys(categories).map((option, index) => (
@@ -220,7 +219,6 @@ function App() {
           </div>
         </div>
 
-
         <div className='row mb-3'>
           <div className='col'>
             <input className="form-control" type="text" value={link} onChange={handleLinkChange} placeholder='Link' />
@@ -241,7 +239,7 @@ function App() {
   }
 
   //
-  //
+  //  the entry point
   //
   useEffect(() => {
     // localStorage.clear();
@@ -274,7 +272,6 @@ function App() {
   }, []);
 
   return (
-    // <table style={{ maxHeight: '50vh', overflow: 'auto' }}>
     <div className=" mx-5 my-3">
       <div className='container-fluid' style={{ maxHeight: '95vh', overflow: 'hidden' }}>
 

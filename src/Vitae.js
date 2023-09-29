@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { PDFViewer } from '@react-pdf/renderer';
 import { Document, Page, Text, View, StyleSheet, Link, Font } from '@react-pdf/renderer';
 
+// font for symbols in the vitae
 import { faArrowUpRightFromSquare, faTrophy, faCertificate } from '@fortawesome/free-solid-svg-icons'
 import FontAwesomeIcon from './FontAwesomeIcon'
 
+// main font for the vitae
 import EBGaramondRegular from './EBGaramond-Regular.ttf'
 import EBGaramondItalic from './EBGaramond-Italic.ttf'
 import EBGaramondBold from './EBGaramond-Bold.ttf'
@@ -45,7 +47,6 @@ const styles = StyleSheet.create({
     },
     heading: {
         fontWeight: "bold",
-        // marginBottom: 5,
         fontSize: "14",
     },
     subHeading: {
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
         width: '5%',
         marginLeft: 10,
     },
-    textNone: {
+    textNonee: {
         width: '0%'
     },
     textAward: {
@@ -96,9 +97,12 @@ const styles = StyleSheet.create({
     },
 });
 
+//
+// the elements that make up the vitae pdf
+//
 function Vitae(data) {
     const entryBlank = { startYear: '', endYear: '', label: '', description: '', link: '' };
-    const [basicInfo, setBasicInfo] = useState(entryBlank);
+    const [basicInfo, setBasicInfo] = useState();
     const [currentPositions, setCurrentPositions] = useState();
     const [educations, setEducations] = useState();
     const [awards, setAwards] = useState();
@@ -111,14 +115,17 @@ function Vitae(data) {
     const [teachingMentoring, setTeachingMentoring] = useState();
     const [service, setService] = useState();
 
+    // recurring routine to initialize and import each section's data
     const initEntry = (entries, name, setMethod) => {
         const fixEndYear = (endYear) => {
             return endYear === '' ? new Date().getFullYear() : parseInt(endYear)
         }
+
         if (entries[name]) {
             const objs = data.entries[name]
             Object.keys(objs).map((key, index) => (
-                objs[key].sort((a, b) => parseInt(b.startYear) != parseInt(a.startYear) ? (parseInt(b.startYear) - parseInt(a.startYear)) : (fixEndYear(b.endYear) - fixEndYear(a.endYear)))
+                // the following sorts items first by start year then by end year
+                objs[key].sort((a, b) => parseInt(b.startYear) !== parseInt(a.startYear) ? (parseInt(b.startYear) - parseInt(a.startYear)) : (fixEndYear(b.endYear) - fixEndYear(a.endYear)))
             ))
             setMethod(objs)
         }
@@ -126,13 +133,14 @@ function Vitae(data) {
 
     useEffect(() => {
         if (data.entries) {
-            if (data.entries['Basic Information']) {
-                const objs = data.entries['Basic Information']['']
-                if (objs && objs.length > 0) {
-                    setBasicInfo(objs[0])
-                }
-            }
+            // if (data.entries['Basic Information']) {
+            //     const objs = data.entries['Basic Information']['']
+            //     if (objs && objs.length > 0) {
+            //         setBasicInfo(objs[0])
+            //     }
+            // }
 
+            initEntry(data.entries, 'Basic Information', setBasicInfo)
             initEntry(data.entries, 'Current Position', setCurrentPositions)
             initEntry(data.entries, 'Education', setEducations)
             initEntry(data.entries, 'Awards', setAwards)
@@ -148,31 +156,44 @@ function Vitae(data) {
 
     }, []);
 
+    //
+    // generate elements that make up a section in the vitae pdf
+    //
     const VitaeSection = (objs) => {
         const secEntries = objs.entries
         const secName = objs.name
         return secEntries === undefined ? <View></View> :
             <View style={styles.section}>
                 {secName === '' ? "" : <Text style={styles.heading}>{secName}</Text>}
+                {/* for each subsection */}
                 {Object.keys(secEntries).map((subsecName, idx) => (
                     <View>
                         <Text style={styles.subHeading}>{subsecName}</Text>
                         {secEntries[subsecName].map((entry, idx) => (
+                            // one row in the vitae
                             <View style={styles.rowItem}>
+                                {/* start/end dates */}
                                 <Text style={styles.textDates}>
                                     {entry.startYear + (entry.endYear === '' ? "" : ('-' + entry.endYear))}
                                 </Text>
-                                <Text style={entry.label === '' ? styles.textNon : styles.textLabel}>{entry.label}</Text>
+
+                                {/* label */}
+                                <Text style={entry.label === '' ? styles.textNone : styles.textLabel}>{entry.label}</Text>
+
+                                {/* description */}
                                 <View style={{ flexDirection: "column" }}>
                                     <Text style={entry.label === '' ? styles.textDescriptionWide : styles.textDescription}>
                                         {entry.description}
                                     </Text>
-                                    {entry.award != undefined && entry.award.includes("Best") ? <View style={{ flexDirection: "row" }}>
+                                    {/* mark awards */}
+                                    {entry.award !== undefined && entry.award.includes("Best") ? <View style={{ flexDirection: "row" }}>
                                         <FontAwesomeIcon faIcon={entry.award.includes("Honorable") ? faCertificate : faTrophy} style={{ color: '#DC143C', width: '10px' }} />
                                         <Text>{" "}</Text>
                                         <Text style={styles.textAward}>{entry.award}</Text>
                                     </View> : ""}
                                 </View>
+
+                                {/* link */}
                                 <View style={styles.textLink}>
                                     {entry.link === '' ? <Text>{""}</Text> : <Link src={entry.link}><FontAwesomeIcon faIcon={faArrowUpRightFromSquare} style={{ color: '#2D68C4', width: '8px', marginTop: 3 }} /></Link>}
                                 </View>
@@ -183,16 +204,19 @@ function Vitae(data) {
             </View>
     }
 
+    //
+    //  create the entire vitae
+    //
     const VitaePage = () => (
         <Document>
             <Page wrap size="A4" style={styles.page}>
                 {/* basic info */}
                 {basicInfo === undefined ? <View></View> :
                     <View style={styles.section}>
-                        <Text style={styles.heading}>{basicInfo.label}</Text>
+                        <Text style={styles.heading}>{basicInfo[''][0].label}</Text>
                         <Text>{" "}</Text>
-                        <Text>{basicInfo.description}</Text>
-                        <Text>{basicInfo.link}</Text>
+                        <Text>{basicInfo[''][0].description}</Text>
+                        <Text>{basicInfo[''][0].link}</Text>
                     </View>}
 
                 <VitaeSection entries={currentPositions} name="Current Position" />
