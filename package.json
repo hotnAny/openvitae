@@ -52,5 +52,8 @@
     "@react-pdf/font": "2.2.0",
     "@react-pdf/layout": "3.1.2",
     "@react-pdf/pdfkit": "2.1.0"
+  },
+  "engines": {
+    "node": ">=16.0.0 <17.0.0"
   }
 }
