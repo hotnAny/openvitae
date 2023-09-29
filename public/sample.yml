@@ -1,0 +1,36 @@
+Basic Information:
+  '':
+    - startYear: ''
+      endYear: ''
+      label: Ivan Sutherland
+      description: |
+        Portland State University
+        1825 SW Broadway
+        Portland, OR 97201
+      link: 'https://en.wikipedia.org/wiki/Ivan_Sutherland'
+Education:
+  '':
+    - startYear: '1960'
+      endYear: '1963'
+      label: Ph.D.
+      description: |-
+        Electrical Engineering
+        Massachusetts Institute of Technology
+      link: ''
+Awards:
+  '':
+    - startYear: '2012'
+      endYear: ''
+      label: ''
+      description: 'Kyoto Prize, in the category of advanced technology'
+      link: 'https://www.kyotoprize.org/en/laureates/ivan-edward-sutherland/'
+Publications:
+  Conferences & Journals:
+    - startYear: '2019'
+      endYear: ''
+      label: ''
+      description: >-
+        Swetha Mettala Gilla, Marly Roncken, Ivan Sutherland, Xiaoyu Song.
+        Mutual exclusion sizing for hoi polloi. IEEE Transactions on Circuits
+        and Systems II: Express Briefs 66, no. 6 (2018): 1038-1042.
+      link: 'https://ieeexplore.ieee.org/document/8481365/'

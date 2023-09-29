@@ -11,7 +11,6 @@ function App() {
 
   const [entries, setEntries] = useState({});
   const [isDataReady, setDataReady] = useState(false);
-  // const [heightEditor, setHeightEditor] = useState(0);
 
   const formRef = useRef(null);
   const editorRef = useRef(null);
@@ -32,7 +31,21 @@ function App() {
       } catch (error) {
         alert(error);
       }
-
+    } else {
+      fetch('/sample.yml')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+          }
+          return response.text();
+        })
+        .then(data => {
+          setEntries(yaml.load(data));
+          handleSyncPDF();
+        })
+        .catch(error => {
+          console.error('There has been a problem with your fetch operation:', error);
+        });
     }
 
     console.log(entries);
@@ -45,7 +58,7 @@ function App() {
     // signal to the PDF viewer that data is now ready 
     setTimeout(() => {
       setDataReady(true);
-    }, 1000);
+    }, 250);
 
   }
 
@@ -54,12 +67,6 @@ function App() {
 
     syncData(rawDataNew);
     handleSyncPDF();
-
-    // setStatusText("Data saved.");
-    setTimeout(() => {
-      // TODO: find a better placeholder
-      // setStatusText("...");
-    }, 1000);
   };
 
   const handleFind = () => {
@@ -262,7 +269,6 @@ function App() {
     // dynamically adjust ace editor's height
     const divForm = document.getElementsByName('divForm')[0]
     const heightEditor = divForm.parentNode.offsetHeight - divForm.offsetHeight
-    console.log(heightEditor)
     editor.height = heightEditor
 
   }, []);
@@ -281,7 +287,7 @@ function App() {
             <div name='divForm' className='row mb-3' style={{ width: '100%' }}>
               <Form ref={formRef} />
             </div>
-            <div className='row p-2' style={{ width: '100%', height: '100vh'}}>
+            <div className='row p-2' style={{ width: '100%', height: '100vh' }}>
               <AceEditor
                 ref={editorRef}
                 theme="dawn"
