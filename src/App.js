@@ -290,7 +290,7 @@ function App() {
                 theme="dawn"
                 mode="yaml"
                 height="100%"
-                style={{ flex: '1' }}
+                style={{ overflow: 'auto', flex: '1' }}
                 value={yaml.dump(entries, { noRefs: true, quoteKeys: true })}
               />
             </div>
