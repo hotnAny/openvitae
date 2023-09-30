@@ -14,6 +14,8 @@ function App() {
 
   const formRef = useRef(null);
   const editorRef = useRef(null);
+  const [editorHeight, setEditorHeight] = useState('500px');
+
 
   //
   // synchronize data across local storage, the editor view, and the PDF view
@@ -266,14 +268,15 @@ function App() {
 
     // dynamically adjust ace editor's height
     const divForm = document.getElementsByName('divForm')[0]
-    const heightEditor = divForm.parentNode.offsetHeight - divForm.offsetHeight
-    editor.height = heightEditor
+    const divMain = document.getElementsByName('divMain')[0]
+    const heightEditor = divMain.offsetHeight - divForm.offsetHeight
+    setEditorHeight(heightEditor)
 
   }, []);
 
   return (
     <div className=" mx-5 my-3">
-      <div className='container-fluid' style={{ maxHeight: '95vh', overflow: 'hidden' }}>
+      <div name='divMain' className='container-fluid' style={{ maxHeight: '95vh', overflow: 'hidden' }}>
 
         <div className='row mb-3'>
           <h3>OpenVitae</h3>
@@ -289,7 +292,7 @@ function App() {
                 ref={editorRef}
                 theme="dawn"
                 mode="yaml"
-                height="100%"
+                height={editorHeight}
                 style={{ overflow: 'auto', flex: '1' }}
                 value={yaml.dump(entries, { noRefs: true, quoteKeys: true })}
               />
