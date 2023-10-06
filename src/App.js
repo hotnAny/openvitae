@@ -279,7 +279,7 @@ function App() {
     // dynamically adjust ace editor's height
     const divForm = document.getElementsByName('divForm')[0]
     const divMain = document.getElementsByName('divMain')[0]
-    const heightEditor = divMain.offsetHeight - divForm.offsetHeight
+    const heightEditor = (divMain.offsetHeight - divForm.offsetHeight) * 0.9
     setEditorHeight(heightEditor)
 
   }, []);
