@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import yaml from 'js-yaml';
 import AceEditor from 'react-ace'
-import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/ext-searchbox'; // Import the searchbox extension
 import Vitae from './Vitae';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -139,6 +138,11 @@ function App() {
     };
 
     const handleSubmit = (e) => {
+      if(category === '' || startYear==='' || description === '') {
+        alert("Please enter required information: Category, Start Year, and Description.")
+        return;
+      }
+
       e.preventDefault();
 
       const entry = { startYear, endYear, label, description, link };
@@ -161,6 +165,14 @@ function App() {
 
       // update the editor
       editorRef.current.editor.setValue(rawDataNew)
+
+      setCategory('')
+      setSubCategory('')
+      setStartYear('')
+      setEndYear('')
+      setLabel('')
+      setDescription('')
+      setLink('')
     };
 
     const handleDownload = (e) => {
@@ -244,8 +256,6 @@ function App() {
   //  the entry point
   //
   useEffect(() => {
-    // localStorage.clear();
-
     syncData()
     handleSyncPDF()
 
