@@ -55,6 +55,6 @@
     "@react-pdf/pdfkit": "2.1.0"
   },
   "engines": {
-    "node": ">=16.0.0 <17.0.0"
+    "node": "18.x"
   }
 }
