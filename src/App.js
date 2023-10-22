@@ -5,6 +5,7 @@ import 'ace-builds/src-noconflict/ext-searchbox'; // Import the searchbox extens
 import Vitae from './Vitae';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'ace-builds/src-noconflict/theme-dawn'; // Replace 'theme-monokai' with your desired theme
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
 
@@ -337,6 +338,7 @@ function App() {
           </div>
         </div>
       </div>
+      <Analytics />
     </div>
   );
 }
