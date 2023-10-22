@@ -119,10 +119,13 @@ function App() {
       setCategory(selectedValue);
       setSubCategory('');
       setSubCategoryOptions(categories[selectedValue]);
+      scrollToWorld(selectedValue + ":")
     };
 
     const handleSubCategoryChange = (e) => {
-      setSubCategory(e.target.value);
+      const selectedValue = e.target.value;
+      setSubCategory(selectedValue);
+      scrollToWorld(selectedValue + ":")
     };
 
     const handleLabelChange = (e) => {
@@ -138,7 +141,7 @@ function App() {
     };
 
     const handleSubmit = (e) => {
-      if(category === '' || startYear==='' || description === '') {
+      if (category === '' || startYear === '' || description === '') {
         alert("Please enter required information: Category, Start Year, and Description.")
         return;
       }
@@ -175,6 +178,9 @@ function App() {
       setLink('')
     };
 
+    //
+    //  download the yaml file
+    //
     const handleDownload = (e) => {
       const yamlString = yaml.dump(entries);
       const blob = new Blob([yamlString], { type: 'application/x-yaml' });
@@ -186,6 +192,24 @@ function App() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+    }
+
+    const scrollToWorld = (word) => {
+      const editor = editorRef.current.editor;
+      // const session = editor.getSession();
+
+      // Find the range of the first occurrence of the word
+      const found = editor.find(word, {
+        // search options as necessary, e.g., case sensitivity, whole word, etc.
+      });
+
+      if (found) {
+        // If found, Ace automatically scrolls to the selection. 
+        // However, you can manually adjust or animate the scroll as needed
+        editor.scrollToLine(found.start.row, true, true, function () { });
+      } else {
+        // Handle case where the word is not found
+      }
     }
 
     return (
