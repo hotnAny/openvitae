@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: 'stretch',
         width: '100%',
-        marginBottom: 10
+        marginBottom: 10,
     },
     textDates: {
         width: '10%',
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
 // the elements that make up the vitae pdf
 //
 function Vitae(data) {
-    const entryBlank = { startYear: '', endYear: '', label: '', description: '', link: '' };
+    // const entryBlank = { startYear: '', endYear: '', label: '', description: '', link: '' };
     const [basicInfo, setBasicInfo] = useState();
     const [currentPositions, setCurrentPositions] = useState();
     const [educations, setEducations] = useState();
@@ -133,13 +133,6 @@ function Vitae(data) {
 
     useEffect(() => {
         if (data.entries) {
-            // if (data.entries['Basic Information']) {
-            //     const objs = data.entries['Basic Information']['']
-            //     if (objs && objs.length > 0) {
-            //         setBasicInfo(objs[0])
-            //     }
-            // }
-
             initEntry(data.entries, 'Basic Information', setBasicInfo)
             initEntry(data.entries, 'Current Position', setCurrentPositions)
             initEntry(data.entries, 'Education', setEducations)
@@ -171,7 +164,7 @@ function Vitae(data) {
                         <Text style={styles.subHeading}>{subsecName}</Text>
                         {secEntries[subsecName].map((entry, idx) => (
                             // one row in the vitae
-                            <View style={styles.rowItem}>
+                            <View wrap={false} style={styles.rowItem}>
                                 {/* start/end dates */}
                                 <Text style={styles.textDates}>
                                     {entry.startYear + (entry.endYear === '' ? "" : ('-' + entry.endYear))}
@@ -218,6 +211,8 @@ function Vitae(data) {
                         <Text>{basicInfo[''][0].description}</Text>
                         <Text>{basicInfo[''][0].link}</Text>
                     </View>}
+
+                {/* other sections */}
 
                 <VitaeSection entries={currentPositions} name="Current Position" />
 
