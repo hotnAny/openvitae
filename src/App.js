@@ -14,10 +14,10 @@ function App() {
   const [entries, setEntries] = useState({});
   const [isDataReady, setDataReady] = useState(false);
 
-  const formRef = useRef(null);
+  // const formRef = useRef(null);
   const editorRef = useRef(null);
   const [editorHeight, setEditorHeight] = useState('500px');
-
+  
 
   //
   // synchronize data across local storage, the editor view, and the PDF view
@@ -122,13 +122,13 @@ function App() {
       setCategory(selectedValue);
       setSubCategory('');
       setSubCategoryOptions(categories[selectedValue]);
-      scrollToWorld(selectedValue + ":")
+      scrollToWord(selectedValue + ":")
     };
 
     const handleSubCategoryChange = (e) => {
       const selectedValue = e.target.value;
       setSubCategory(selectedValue);
-      scrollToWorld(selectedValue + ":")
+      scrollToWord(selectedValue + ":")
     };
 
     const handleLabelChange = (e) => {
@@ -197,7 +197,10 @@ function App() {
       document.body.removeChild(a);
     }
 
-    const scrollToWorld = (word) => {
+    //
+    //
+    //
+    const scrollToWord = (word) => {
       const editor = editorRef.current.editor;
       // const session = editor.getSession();
 
@@ -322,7 +325,7 @@ function App() {
         <div className='row'>
           <div className='col-' style={{ width: '640px' }}>
             <div name='divForm' className='row mb-3' style={{ width: '100%' }}>
-              <Form ref={formRef} />
+              <Form />
             </div>
             <div className='row p-2' style={{ width: '100%', height: '100vh' }}>
               <AceEditor
