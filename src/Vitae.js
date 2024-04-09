@@ -131,27 +131,27 @@ function Vitae(data) {
         }
     }
 
-    const BoldKeywordInText = ({label, text, keyword }) => {
+    const BoldKeywordInText = ({ label, text, keyword }) => {
         // fix some encoding inconsistency
         text = text.replace("‘", "'")
         text = text.replace("’", "'")
-        
+
         const parts = text.split(new RegExp(`(${keyword})`, 'gi'));
-      
+
         return (
-          <Text style={label === '' ? styles.textDescriptionWide : styles.textDescription}>
-            {parts.map((part, index) =>
-              part.toLowerCase() === keyword.toLowerCase() ? (
-                <Text key={index} style={styles.textMyName}>
-                  {part}
-                </Text>
-              ) : (
-                <Text key={index}>{part}</Text>
-              )
-            )}
-          </Text>
+            <Text style={label === '' ? styles.textDescriptionWide : styles.textDescription}>
+                {parts.map((part, index) =>
+                    part.toLowerCase() === keyword.toLowerCase() ? (
+                        <Text key={index} style={styles.textMyName}>
+                            {part}
+                        </Text>
+                    ) : (
+                        <Text key={index}>{part}</Text>
+                    )
+                )}
+            </Text>
         );
-      };
+    };
 
     useEffect(() => {
         if (data.entries) {
@@ -204,7 +204,7 @@ function Vitae(data) {
                                     */}
 
                                     {/* the following bolds the CV owner's name specified earlier in the basic info */}
-                                    <BoldKeywordInText label={entry.label} text={entry.description} keyword={basicInfo[''][0].label}/>
+                                    <BoldKeywordInText label={entry.label} text={entry.description} keyword={basicInfo[''][0].label} />
 
                                     {/* mark awards */}
                                     {entry.award !== undefined && entry.award.includes("Best") ? <View style={{ flexDirection: "row" }}>
