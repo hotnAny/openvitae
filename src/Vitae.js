@@ -202,7 +202,9 @@ function Vitae(data) {
                                         {entry.description}
                                     </Text>
                                     */}
-                                    <BoldKeywordInText label={entry.label} text={entry.description} keyword="Xiang 'Anthony' Chen" />
+
+                                    {/* the following bolds the CV owner's name specified earlier in the basic info */}
+                                    <BoldKeywordInText label={entry.label} text={entry.description} keyword={basicInfo[''][0].label}/>
 
                                     {/* mark awards */}
                                     {entry.award !== undefined && entry.award.includes("Best") ? <View style={{ flexDirection: "row" }}>
