@@ -81,11 +81,11 @@ const styles = StyleSheet.create({
         width: '5%',
         marginLeft: 10,
     },
-    textNonee: {
-        width: '0%'
-    },
     textAward: {
         color: '#DC143C',
+        fontWeight: 'bold',
+    },
+    textMyName: {
         fontWeight: 'bold',
     },
     pageNumbers: {
@@ -131,6 +131,28 @@ function Vitae(data) {
         }
     }
 
+    const BoldKeywordInText = ({label, text, keyword }) => {
+        // fix some encoding inconsistency
+        text = text.replace("‘", "'")
+        text = text.replace("’", "'")
+        
+        const parts = text.split(new RegExp(`(${keyword})`, 'gi'));
+      
+        return (
+          <Text style={label === '' ? styles.textDescriptionWide : styles.textDescription}>
+            {parts.map((part, index) =>
+              part.toLowerCase() === keyword.toLowerCase() ? (
+                <Text key={index} style={styles.textMyName}>
+                  {part}
+                </Text>
+              ) : (
+                <Text key={index}>{part}</Text>
+              )
+            )}
+          </Text>
+        );
+      };
+
     useEffect(() => {
         if (data.entries) {
             initEntry(data.entries, 'Basic Information', setBasicInfo)
@@ -175,9 +197,13 @@ function Vitae(data) {
 
                                 {/* description */}
                                 <View style={{ flexDirection: "column" }}>
+                                    {/*
                                     <Text style={entry.label === '' ? styles.textDescriptionWide : styles.textDescription}>
                                         {entry.description}
                                     </Text>
+                                    */}
+                                    <BoldKeywordInText label={entry.label} text={entry.description} keyword="Xiang 'Anthony' Chen" />
+
                                     {/* mark awards */}
                                     {entry.award !== undefined && entry.award.includes("Best") ? <View style={{ flexDirection: "row" }}>
                                         <FontAwesomeIcon faIcon={entry.award.includes("Honorable") ? faCertificate : faTrophy} style={{ color: '#DC143C', width: '10px' }} />
