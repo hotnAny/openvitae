@@ -132,10 +132,6 @@ function Vitae(data) {
     }
 
     const BoldKeywordInText = ({ label, text, keyword }) => {
-        // fix some encoding inconsistency
-        text = text.replace("‘", "'")
-        text = text.replace("’", "'")
-
         const parts = text.split(new RegExp(`(${keyword})`, 'gi'));
 
         return (
