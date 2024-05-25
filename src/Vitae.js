@@ -61,6 +61,12 @@ const styles = StyleSheet.create({
         width: '100%',
         marginBottom: 10,
     },
+    rowItemNarrow: {
+        flexDirection: "row",
+        alignItems: 'stretch',
+        width: '100%',
+        marginBottom: 3,
+    },
     textDates: {
         width: '10%',
         marginRight: 10
@@ -182,7 +188,7 @@ function Vitae(data) {
                         <Text style={styles.subHeading}>{subsecName}</Text>
                         {secEntries[subsecName].map((entry, idx) => (
                             // one row in the vitae
-                            <View wrap={false} style={styles.rowItem}>
+                            <View wrap={false} style={objs.rowNarrow ? styles.rowItemNarrow : styles.rowItem}>
                                 {/* start/end dates */}
                                 <Text style={styles.textDates}>
                                     {entry.startYear + (entry.endYear === '' ? "" : ('-' + entry.endYear))}
@@ -242,7 +248,7 @@ function Vitae(data) {
 
                 <VitaeSection entries={educations} name="Education" />
 
-                <VitaeSection entries={awards} name="Awards" />
+                <VitaeSection entries={awards} name="Awards" rowNarrow={true} />
 
                 <VitaeSection entries={professionals} name="Professional Experiences" />
 
