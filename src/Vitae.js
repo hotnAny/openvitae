@@ -199,12 +199,6 @@ function Vitae(data) {
 
                                 {/* description */}
                                 <View style={{ flexDirection: "column" }}>
-                                    {/*
-                                    <Text style={entry.label === '' ? styles.textDescriptionWide : styles.textDescription}>
-                                        {entry.description}
-                                    </Text>
-                                    */}
-
                                     {/* the following bolds the CV owner's name specified earlier in the basic info */}
                                     <BoldKeywordInText label={entry.label} text={entry.description} keyword={basicInfo[''][0].label} />
 
