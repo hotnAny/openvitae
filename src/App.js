@@ -312,6 +312,8 @@ function App() {
     const heightEditor = (divMain.offsetHeight - divForm.offsetHeight) * 0.9
     setEditorHeight(heightEditor)
 
+    // Intentionally run once on mount: editor commands and layout must not re-register on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- syncData/handleSave change identity each render
   }, []);
 
   return (

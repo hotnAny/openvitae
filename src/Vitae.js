@@ -103,6 +103,22 @@ const styles = StyleSheet.create({
     },
 });
 
+// recurring routine to initialize and import each section's data
+function initEntry(entries, name, setMethod) {
+    const fixEndYear = (endYear) => {
+        return endYear === '' ? new Date().getFullYear() : parseInt(endYear)
+    }
+
+    if (entries[name]) {
+        const objs = entries[name]
+        Object.keys(objs).map((key, index) => (
+            // the following sorts items first by start year then by end year
+            objs[key].sort((a, b) => parseInt(b.startYear) !== parseInt(a.startYear) ? (parseInt(b.startYear) - parseInt(a.startYear)) : (fixEndYear(b.endYear) - fixEndYear(a.endYear)))
+        ))
+        setMethod(objs)
+    }
+}
+
 //
 // the elements that make up the vitae pdf
 //
@@ -120,22 +136,6 @@ function Vitae(data) {
     const [talks, setTalks] = useState();
     const [teachingMentoring, setTeachingMentoring] = useState();
     const [service, setService] = useState();
-
-    // recurring routine to initialize and import each section's data
-    const initEntry = (entries, name, setMethod) => {
-        const fixEndYear = (endYear) => {
-            return endYear === '' ? new Date().getFullYear() : parseInt(endYear)
-        }
-
-        if (entries[name]) {
-            const objs = data.entries[name]
-            Object.keys(objs).map((key, index) => (
-                // the following sorts items first by start year then by end year
-                objs[key].sort((a, b) => parseInt(b.startYear) !== parseInt(a.startYear) ? (parseInt(b.startYear) - parseInt(a.startYear)) : (fixEndYear(b.endYear) - fixEndYear(a.endYear)))
-            ))
-            setMethod(objs)
-        }
-    }
 
     const BoldKeywordInText = ({ label, text, keyword }) => {
         const parts = text.split(new RegExp(`(${keyword})`, 'gi'));
@@ -171,7 +171,7 @@ function Vitae(data) {
             initEntry(data.entries, 'Service', setService)
         }
 
-    }, []);
+    }, [data.entries]);
 
     //
     // generate elements that make up a section in the vitae pdf
