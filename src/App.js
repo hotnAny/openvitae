@@ -313,7 +313,8 @@ function App() {
     setEditorHeight(heightEditor)
 
     // Intentionally run once on mount: editor commands and layout must not re-register on every render.
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- syncData/handleSave change identity each render
+    // syncData/handleSave are new function identities each render; listing them would re-run this effect.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
