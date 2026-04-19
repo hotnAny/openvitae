@@ -242,7 +242,7 @@ function Vitae(data) {
 
                 <VitaeSection entries={educations} name="Education" />
 
-                <VitaeSection entries={awards} name="Awards" rowNarrow={true} />
+                <VitaeSection entries={awards} name="Awards & Honors" rowNarrow={true} />
 
                 <VitaeSection entries={professionals} name="Professional Experiences" />
 
