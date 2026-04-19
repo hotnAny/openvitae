@@ -160,7 +160,7 @@ function Vitae(data) {
             initEntry(data.entries, 'Basic Information', setBasicInfo)
             initEntry(data.entries, 'Current Position', setCurrentPositions)
             initEntry(data.entries, 'Education', setEducations)
-            initEntry(data.entries, 'Awards', setAwards)
+            initEntry(data.entries, 'Awards & Honors', setAwards)
             initEntry(data.entries, 'Professional Experiences', setProfessionals)
             initEntry(data.entries, 'Publications', setPublications)
             initEntry(data.entries, 'Patents', setPatents)
