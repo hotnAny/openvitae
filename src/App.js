@@ -12,6 +12,7 @@ inject();
 function App() {
 
   const [entries, setEntries] = useState({});
+  const [lastUpdated, setLastUpdated] = useState(null);
   const [isDataReady, setDataReady] = useState(false);
 
   // const formRef = useRef(null);
@@ -26,12 +27,17 @@ function App() {
     // in case new data needs to be updated to local storage
     if (rawDataNew) {
       localStorage.setItem('entries', rawDataNew);
+      const ts = new Date().toISOString();
+      localStorage.setItem('vitaeLastUpdated', ts);
+      setLastUpdated(ts);
     }
 
     const localStorageData = localStorage.getItem('entries');
     if (localStorageData) {
       try {
         setEntries(yaml.load(localStorageData));
+        const stored = localStorage.getItem('vitaeLastUpdated');
+        if (stored) setLastUpdated(stored);
       } catch (error) {
         alert(error);
       }
@@ -47,6 +53,9 @@ function App() {
         })
         .then(data => {
           setEntries(yaml.load(data));
+          const ts = new Date().toISOString();
+          localStorage.setItem('vitaeLastUpdated', ts);
+          setLastUpdated(ts);
           handleSyncPDF();
         })
         .catch(error => {
@@ -342,7 +351,7 @@ function App() {
             </div>
           </div>
           <div className='col mx-5'>
-            {isDataReady ? <div style={{ position: 'relative' }}><Vitae entries={entries} /> </div> : <p>Loading ...</p>}
+            {isDataReady ? <div style={{ position: 'relative' }}><Vitae entries={entries} lastUpdated={lastUpdated} /> </div> : <p>Loading ...</p>}
           </div>
         </div>
       </div>

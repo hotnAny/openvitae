@@ -101,6 +101,14 @@ const styles = StyleSheet.create({
         right: 0,
         textAlign: 'center'
     },
+    lastUpdated: {
+        position: 'absolute',
+        top: 22,
+        right: 20,
+        fontSize: 9,
+        fontFamily: 'EBGaramondItalic',
+        color: '#555555',
+    },
 });
 
 // recurring routine to initialize and import each section's data
@@ -116,6 +124,19 @@ function initEntry(entries, name, setMethod) {
             objs[key].sort((a, b) => parseInt(b.startYear) !== parseInt(a.startYear) ? (parseInt(b.startYear) - parseInt(a.startYear)) : (fixEndYear(b.endYear) - fixEndYear(a.endYear)))
         ))
         setMethod(objs)
+    }
+}
+
+function formatLastUpdated(iso) {
+    if (!iso) return '';
+    try {
+        return new Date(iso).toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    } catch {
+        return '';
     }
 }
 
@@ -227,6 +248,11 @@ function Vitae(data) {
     const VitaePage = () => (
         <Document>
             <Page wrap size="A4" style={styles.page}>
+                {data.lastUpdated ? (
+                    <Text style={styles.lastUpdated}>
+                        Last updated: {formatLastUpdated(data.lastUpdated)}
+                    </Text>
+                ) : null}
                 {/* basic info */}
                 {basicInfo === undefined ? <View></View> :
                     <View style={styles.section}>
