@@ -200,6 +200,7 @@ function Vitae(data) {
     const VitaeSection = (objs) => {
         const secEntries = objs.entries
         const secName = objs.name
+        const entryWrap = objs.allowEntryBreak === true
         return secEntries === undefined ? <View></View> :
             <View style={styles.section}>
                 {secName === '' ? "" : <Text style={styles.heading}>{secName}</Text>}
@@ -208,8 +209,8 @@ function Vitae(data) {
                     <View>
                         <Text style={styles.subHeading}>{subsecName}</Text>
                         {secEntries[subsecName].map((entry, idx) => (
-                            // one row in the vitae
-                            <View wrap={false} style={objs.rowNarrow ? styles.rowItemNarrow : styles.rowItem}>
+                            // one row in the vitae (wrap=false keeps entries on one page; Service may split long items)
+                            <View wrap={entryWrap} style={objs.rowNarrow ? styles.rowItemNarrow : styles.rowItem}>
                                 {/* start/end dates */}
                                 <Text style={styles.textDates}>
                                     {entry.startYear + (entry.endYear === '' ? "" : ('-' + entry.endYear))}
@@ -284,7 +285,7 @@ function Vitae(data) {
 
                 <VitaeSection entries={teachingMentoring} name="Teaching & Mentoring" />
 
-                <VitaeSection entries={service} name="Service" />
+                <VitaeSection entries={service} name="Service" allowEntryBreak={true} />
 
                 <Text style={styles.pageNumbers} render={({ pageNumber, totalPages }) => (
                     `${pageNumber} / ${totalPages}`
